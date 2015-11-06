@@ -1,0 +1,166 @@
+<div class="modal-scroll  edit-car-details">
+<div class="get-discount-modal-box">
+    <md-dialog data-ng-controller="EditCarDetailsController">
+        <md-dialog-content class="inner-modal">
+           <a class="idv-close ncb-close" ng-click="closeModal($event)"><span>Close</span></a>
+            <section class="discount-head">
+                <h2>Edit Car Details</small></h2>
+            </section>
+        
+        <ul class="start-wrap new-iq">
+            <li>
+                <form novalidate ng-submit="populateEnquiryDetails(searchForm.$valid,searchForm)" name="searchForm">                    
+                    <div class="info-step">
+                        <label>Policy Type:</label>
+                            <span>
+                                <md-radio-group ng-model="policyType" data-ng-change =  "changePolicyType(policyType,true)">
+                                    <md-radio-button value="1">Renewal Policy</md-radio-button>
+                                    <md-radio-button value="2">Expired Policy</md-radio-button>
+                                    <md-radio-button value="0">New Car Policy</md-radio-button>
+                                </md-radio-group>
+                            </span>
+                    </div>
+
+                    <div class="info-step cog-1" ng-if="!isRegYearVisible">
+                        <label><em>City of Registration:</em></label>
+                            <span class="cor">
+                                 <md-autocomplete flex ng-required="!isRegYearVisible"
+                                                  md-input-name="cityDetails"
+                                                  ng-disabled="isCityDisabled"
+                                                  md-no-cache=true
+                                                  md-selected-item="selectedCityItem"
+                                                  md-search-text-change="searchCityTextChange(citySearchText)"
+                                                  md-search-text="citySearchText"
+                                                  md-selected-item-change="selectedCityItemChange(cityItem)"
+                                                  md-items="cityItem in city | filter: {display: citySearchText}"
+                                                  md-item-text="cityItem.value"
+                                                  md-min-length="3"
+                                                  md-autoselect=true
+                                                  placeholder="City Name" >
+                                     <md-item-template>
+                                         <span md-highlight-text="citySearchText" md-highlight-flags="^i">{{cityItem.display}}</span>
+                                     </md-item-template>
+                                     <md-not-found>
+                                         No matches found for "{{citySearchText}}".
+                                     </md-not-found>
+                                 </md-autocomplete>
+                                <div class="error-messaqe" ng-messages="searchForm.cityDetails.$error"
+                                     ng-if="(searchForm.cityDetails.$dirty || submitted)&&!errorPresent">
+                                    <div ng-message="required">Enter registration city</div>
+                                </div>
+                                 <div class="rd-1" ng-show="errorPresent">{{cityErrorMessage}}</div>
+                            </span>
+                    </div>
+
+                    <div class="info-step" ng-if="isRegYearVisible">
+                        <label><em>Registration Details:</em></label>
+                            <span>
+                                <div class="car-details">
+
+                                    <md-autocomplete ng-required="isRegYearVisible"
+                                                     md-input-name="registraionDetails"
+                                                     ng-disabled="isRegionDisabled"
+                                                     md-no-cache=true
+                                                     md-selected-item="selectedCityItem"
+                                                     md-search-text-change="searchRegionTextChange(searchModel.regionSearchText)"
+                                                     md-search-text="searchModel.regionSearchText"
+                                                     md-selected-item-change="selectedRegionItemChange(regionItem)"
+                                                     md-items="regionItem in getRegistrationMatches(searchModel.regionSearchText)"
+                                                     md-item-text="regionItem.value"
+                                                     md-min-length="2"
+                                                     md-autoselect=true
+                                                     placeholder="Registration Number">
+                                        <md-item-template>
+                                            <span md-highlight-text="searchModel.regionSearchText" md-highlight-flags="^i">{{regionItem.display}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No matches found for "{{searchModel.regionSearchText}}".
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                    <div class="error-messaqe" ng-messages="searchForm.registraionDetails.$error"
+                                         ng-if="(searchForm.registraionDetails.$dirty || submitted)&&!errorPresent" >
+                                        <div ng-message="required">Enter registration number</div>
+                                    </div>
+                                    <div class="rd-3" ng-show="errorPresent">{{regionErrorMessage}}</div>
+                                </div>
+                                <div>
+
+                                    <div class="car-details">
+                                        <md-select name="regYear" required placeholder="Year of Registration" data-ng-model='registYear.regisYear' >
+                                            <md-option ng-repeat="year in registrationYear">{{year}}</md-option>
+                                        </md-select>
+                                        <div class="error-messaqe" ng-messages="searchForm.regYear.$error"
+                                             ng-if="searchForm.regYear.$dirty || submitted" >
+                                            <div ng-message="required">Select registration year</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </span>
+                    </div>
+
+
+                    <div class="info-step">
+                        <label><em>Car Details:</em></label>
+                            <span>
+                                <div class="car-details">
+                                    <md-autocomplete flex ng-required=false
+                                                     md-input-name="carDetailField"
+                                                     md-selected-item="selectedCarItem"
+                                                     md-search-text-change="searchMakeModelTextChange(makeModelSearchText)"
+                                                     md-search-text="makeModelSearchText"
+                                                     md-selected-item-change="selectedMakeModelItemChange(carItem)"
+                                                     md-items="carItem in makeAndModel | filter: {searchString: makeModelSearchText}"
+                                                     md-min-length="2"
+                                                     md-autoselect=true
+                                                     md-item-text="carItem.display"
+                                                     placeholder="Enter Car Make and Model">
+                                        <md-item-template>
+                                            <span md-highlight-text="makeModelSearchText" >{{carItem.display}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No matches found for "{{makeModelSearchText}}".
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                    <div class="error-messaqe e1" ng-messages="searchForm.carDetailField.$error"
+                                         ng-if="searchForm.carDetailField.$dirty || submitted">
+                                        <div ng-message="required">Enter car name</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="car-details">
+                                        <md-select name="carFuel" required placeholder="Select Fuel Type" ng-model="fuel" ng-disabled="isFuelDisabled" data-ng-change =  "changeFuelType(fuel)">
+                                            <md-option ng-repeat="fuelType in fuelTypes">{{fuelType}}</md-option>
+                                        </md-select>
+                                        <div class="error-messaqe" ng-messages="searchForm.carFuel.$error" ng-if="searchForm.carFuel.$dirty || submitted">
+                                            <div ng-message="required">Select fuel used</div>
+                                        </div>
+                                    </div>
+                                    <div class="car-details">
+                                        <md-select name="carVariant" required ng-disabled="!(!isFuelDisabled && !isVariantDisabled)" placeholder="Select Car Variant" ng-model="modelVariant">
+                                            <md-option ng-repeat="variant in variants">{{variant}}</md-option>
+                                        </md-select>
+                                        <div class="error-messaqe" ng-messages="searchForm.carVariant.$error" ng-if="searchForm.carVariant.$dirty || submitted">
+                                            <div ng-message="required">Select car variant</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                    </div>
+
+                    <div class="info-step">
+                        <label></label>
+                        <div class="car-details">
+                            <ul class="byc view-quote">
+                                <li><em data-ng-show="loaderProceed" class="loading"></em><md-button class="md-raised md-primary" ng-click="submitted=true" ng-disabled="loaderProceed">{{viewPlanQuoteName}}</md-button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ul>
+        </md-dialog-content>
+
+    </md-dialog>
+</div>
+</div>

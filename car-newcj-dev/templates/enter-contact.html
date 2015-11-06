@@ -1,0 +1,77 @@
+<div data-ng-controller="CustomerController" layout="column" class="step-2">
+    <div class="sub-head s3">
+        <h1>Please provide the following information <small><a class="back-arrow"><span data-ng-click="beginComaparison()" target="#first">Go Back to the Previous Screen</span></a></small></h1>
+    </div>
+    <div class="start-comparing">
+        <div class="row-1 f1 f2">
+            <div class="flat-shadow"></div>
+            <ul class="start-wrap new-iq">
+                <li>
+                    <div class="p-info">
+                        <form  ng-submit="populateCustomerDetails(projectForm.$valid)" name="projectForm" novalidate>
+                            <span class="right-corner"></span>
+                            <md-content layout-padding>
+                                    <md-input-container>
+                                        <label>Your Full Name</label>
+                                        <input required name="description" ng-model="customerEntity.CustomerName">
+                                        <div class="p-validation" ng-messages="projectForm.description.$error" ng-if="projectForm.description.$dirty || submitted">
+                                            <div ng-message="required">Enter Your Name.</div>
+
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Email Address</label>
+                                        <input type="email" required name="emailAdd" ng-model="customerEntity.Email" ng-pattern="/[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?/">
+                                        <div class="p-validation" ng-messages="projectForm.emailAdd.$error" ng-if="projectForm.emailAdd.$dirty || submitted">
+                                            <div ng-message="required">Enter Email Id.</div>
+                                            <div ng-message="pattern">Enter Valid Email Id.</div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container>
+                                    <div class="car-details mob-1 cc-1">
+                                        <md-select disabled="disabled" class="disabledTxt" name="countrycode" required placeholder="Country Code" ng-model="customerEntity.CountryID" data-ng-change="changeMaxLength(customerEntity.CountryID)">
+                                            <md-option ng-repeat="code in countryCodes | orderBy:'CountryId'" ng-value="code.CountryCode">{{code.CountryId}}</md-option>
+                                        </md-select>
+                                        <md-input-container class="mob-num">
+                                            <label>Mobile Number</label>
+                                            <input type="tel" name="rate" only-num ng-model="customerEntity.MobileNo" maxlength="{{maxNum}}" minlength="{{minNum}}" required>
+                                            <div class="p-validation" ng-messages="projectForm.rate.$error" ng-if="(projectForm.rate.$dirty || submitted)&&!errorMessageHide">
+                                                <div ng-message="required">Enter your mobile number.</div>
+                                                <div ng-message="maxlength">Enter 10 digit number.</div>
+                                                <div ng-message="minlength">Enter 10 digit number.</div>
+                                            </div>
+                                            <div data-ng-show="errorMessageHide" class="rd-4">Enter valid mobile number</div>
+                                        </md-input-container>
+                                        <div class="error-messaqe p-validation p-1" ng-messages="projectForm.countrycode.$error" ng-if="projectForm.countrycode.$dirty || submitted">
+                                            <div ng-message="required">Select Country Code</div>
+                                        </div>
+                                    </div>
+                                    </md-input-container>
+                                    <!-- <div class="car-details mob-1">
+                                      <md-checkbox ng-model="assist.IsAssistanceReq" aria-label="I'd like to buy without assistance ?" >I'd like to buy without assistance ?</md-checkbox>
+                                    </div> -->
+                                    <div class="info-step tag-1">
+                                      <span class="no-1">
+                                        <em>I understand insurance is a complex product. I am happy to receive assistance in order to make a good decision.</em>
+                                        <md-radio-group ng-model="assist.IsAssistanceReq">
+                                          <md-radio-button ng-value="false">Yes</md-radio-button>
+                                          <md-radio-button ng-value="true">No</md-radio-button>
+                                        </md-radio-group>
+                                      </span>
+                                    </div>
+                            </md-content>
+                            <div class="info-step space-b mob-2">
+                                <label class="spc-1"></label>
+                                <div class="car-details">
+                                    <ul class="byc view-quote space-b">
+                                        <li><em data-ng-show="customerProceed" class="loading"></em><md-button class="md-raised md-primary" ng-click="submitted=true" data-ng-disabled="customerProceed">{{custFormSubmitName}}</md-button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

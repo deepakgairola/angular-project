@@ -1,0 +1,151 @@
+<div class="modal-scroll">
+  <div class="view-plan-modal-box p_breakup">
+    <md-dialog>
+      <md-dialog-content class="inner-modal">
+        <div class="plan-details-btn"> <a class="pclose-icon" ng-click="closeModal($event)" href="javascript:void(0)" tabindex="0"></a></div>
+        <div class="container">
+          <div class="row">
+            <div class="top_content">
+              <h4>
+                {{carDetails.MakeModelVariant}}
+                <!-- <span>({{carDetails.RtoCity}} - {{carDetails.RtoCode}})</span> -->
+              </h4>
+              <ul>
+                <li><span>RTO:</span> {{carDetails.RtoCode}} - {{carDetails.RtoCity}}</li>
+                <li><span>IDV:</span> {{selectedQuote.Idv | addCommas}}</li>
+                <li><span>NCB:</span> {{Idv.EligibleNCBPercent}}%</li>
+                <li><span>Voluntary Deductible:</span> {{discount.VoluntaryDeductibleAmount ? discount.VoluntaryDeductibleAmount : 0  | addCommas}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <v-accordion class="vAccordion--default" multiple>
+              <v-pane expanded="true">
+                <v-pane-header click-only="true">
+                  <table>
+                    <tr>
+                      <th>A) Discounted Price (Inclusive of Service Tax)</th>
+                      <th>{{selectedQuote.Breakup.BaseDistLiabilitySum | addCommas}}</th>
+                    </tr>
+                  </table>
+                </v-pane-header>
+                <v-pane-content>
+                  <h5>Own Damage</h5>
+                  <table>
+                    <tr ng-if="selectedQuote.Breakup.BasicPremium > 0">
+                      <td>Basic OD</td>
+                      <td>{{selectedQuote.Breakup.BasicPremium | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.ElecAccessoriesPremium > 0">
+                      <td>Electrical Accessories</td>
+                      <td>{{selectedQuote.Breakup.ElecAccessoriesPremium | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.NonElecAccessoriesPremium > 0">
+                      <td>Non-Electrical Accessories</td>
+                      <td>{{selectedQuote.Breakup.NonElecAccessoriesPremium | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.BiFuelKitPremium > 0">
+                      <td>Bi-fuel Kit</td>
+                      <td>{{selectedQuote.Breakup.BiFuelKitPremium | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.InsurerDiscount > 0">
+                      <td>OD Discount</td>
+                      <td><b>-</b>{{selectedQuote.Breakup.InsurerDiscount | addCommas}}</td>
+                    </tr>
+                    <tr>
+                      <td>NCB Discount</td>
+                      <td>
+                        <b ng-if="selectedQuote.Breakup.NcbDiscount > 0">-</b>{{selectedQuote.Breakup.NcbDiscount | addCommas}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Volunatry Excess Discount</td>
+                      <td>
+                        <b ng-if="selectedQuote.Breakup.VoluntaryDiscount > 0">-</b>{{selectedQuote.Breakup.VoluntaryDiscount | addCommas}}
+                      </td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.AntiTheftDiscount > 0">
+                      <td>Anti-theft Discount</td>
+                      <td><b>-</b>{{selectedQuote.Breakup.AntiTheftDiscount | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.AamDiscount > 0">
+                      <td>Automobile Association of India Membership Discount</td>
+                      <td><b>-</b>{{selectedQuote.Breakup.AamDiscount | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.AgeDiscount > 0">
+                      <td>Age Discount</td>
+                      <td><b>-</b>{{selectedQuote.Breakup.AgeDiscount | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.ProfessionDiscount > 0">
+                      <td>Profession Discount</td>
+                      <td><b>-</b>{{selectedQuote.Breakup.ProfessionDiscount | addCommas}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3"><b>Liability</b></td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.TPPDLiabilityPremium > 0">
+                      <td>Third Party Property Damage</td>
+                      <td>{{selectedQuote.Breakup.TPPDLiabilityPremium | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.CompulsaryPACoverForOwnerDriverPremium > 0">
+                      <td>PA cover for Owner Driver</td>
+                      <td>{{selectedQuote.Breakup.CompulsaryPACoverForOwnerDriverPremium | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.PAForUnnamedPassengerPremium > 0">
+                      <td>PA cover for Unnamed Passenger</td>
+                      <td>{{selectedQuote.Breakup.PAForUnnamedPassengerPremium | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.LegalLiabilityToPaidDriverPremium > 0">
+                      <td>Legal Liability to Paid Driver</td>
+                      <td>{{selectedQuote.Breakup.LegalLiabilityToPaidDriverPremium | addCommas}}</td>
+                    </tr>
+                    <tr ng-if="selectedQuote.Breakup.BiFuelKitLiabilityPremium > 0">
+                      <td>Bi-fuel Kit Liability</td>
+                      <td>{{selectedQuote.Breakup.BiFuelKitLiabilityPremium | addCommas}}</td>
+                    </tr>
+					          <tr ng-if="selectedQuote.Breakup.PaidDriverPremium > 0">
+                      <td>Paid Driver Premium</td>
+                      <td>{{selectedQuote.Breakup.PaidDriverPremium | addCommas}}</td>
+                    </tr>
+                  </table>
+                </v-pane-content>
+              </v-pane>
+              <v-pane>
+                <v-pane-header click-only="true">
+                  <table>
+                    <tr>
+                      <th>B) Add on (Inclusive of Service Tax)</th>
+                      <th>{{selectedQuote.Breakup.AddOnSum | addCommas}}</th>
+                    </tr>
+                  </table>
+                </v-pane-header>
+                <v-pane-content ng-init="getBreakupAddons(selectedQuote)">
+                  <span ng-if="selectedQuote.breakupAddons.length == 0"> No addons selected </span>
+                  <table>
+                    <tr ng-repeat="addon in selectedQuote.breakupAddons">
+                      <td>{{addon.text}}</td>
+                      <td ng-if="addon.value == 'Included'"><em>{{addon.value}}</em></td>
+                      <td ng-if="addon.value != 'Included'">{{addon.value}}</td>
+                    </tr>
+                  </table>
+                </v-pane-content>
+              </v-pane>
+              <v-pane>
+                  <v-pane-header click-only="true" class="no-expand">
+                    <table>
+                      <tr>
+                        <th>C) Final Price (Inclusive of Service Tax)</th>
+                        <th>{{selectedQuote.Breakup.FinalPremium | addCommas}}</th>
+                      </tr>
+                    </table>
+                  </v-pane-header>
+                  <v-pane-content ng-show="false">
+                  </v-pane-content>
+              </v-pane>
+            </v-accordion>
+          </div>
+        </div>
+      </md-dialog-content>
+    </md-dialog>
+  </div>
+</div>

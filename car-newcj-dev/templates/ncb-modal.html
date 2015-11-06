@@ -1,0 +1,97 @@
+<div class="modal-scroll">
+<div class="get-discount-modal-box">
+<md-dialog data-ng-controller="NcbController">
+    <md-dialog-content class="inner-modal">
+        <section class="discount-head lh-1">
+            <h2>Please provide us with few more details about your
+                car policy.</h2>
+        </section>
+        <a class="idv-close ncb-close" ng-click="closeModal()"><span>Close</span></a>
+            <section class="discount-info p1">
+                <div class="discount-info idv-option idv-option2 hr-none">
+                    <div class="inner-padd">
+                    <h3>Have you made a claim in the last 12 months? (or has the vehicle ownership changed?)</h3>
+                    <md-radio-group ng-model="ncbValues.IsClaimMade" data-ng-change="resetNCB(ncbValues.IsClaimMade)">
+                        <md-radio-button ng-value=true>Yes</md-radio-button>
+                        <md-radio-button ng-value=false> No </md-radio-button>
+                    </md-radio-group>
+                    </div>
+                </div>
+                <div class="discount-info dob hr-none" >
+                    <div class="inner-padd">
+                        <h3>What is the NCB mentioned in your existing policy?</h3>
+                        <p>No claim bonus(NCB) is the discount you get for every claim free year. You can check this in under NCB section in your policy.</p>
+                    <div class="md-select-box first-dd">
+                        <md-select placeholder="DD" ng-model="ncbValues.CurrentNCBPercent" name="ncb.percent" data-ng-disabled=ncbValues.IsClaimMade >
+                            <md-option ng-repeat="ncb in ncbPercentages">{{ncb.percent}}</md-option>
+                        </md-select>
+
+                    </div>
+                        </div>
+                </div>
+                <div class="discount-info dob hr-none">
+                    <div class="inner-padd">
+                    <h3>Registration year of your car</h3>
+                        <div class="md-select-box first-dd">
+                            <md-select placeholder="DD" ng-model="registrationDate.date" name="regDate" >
+                                <md-option ng-repeat="date in regDates">{{date}}</md-option>
+                            </md-select>
+
+                        </div>
+                        <div class="md-select-box first-month">
+                            <md-select placeholder="Month" ng-model="registrationDate.month" name="regMonth" >
+                                <md-option ng-repeat="month in regMonths" ng-value="month.monthId">{{month.name}}</md-option>
+                            </md-select>
+
+                        </div>
+                        <div class="md-select-box first-year">
+                            <md-select placeholder="Year" ng-model="registrationDate.year" name="regYear" >
+                                <md-option ng-repeat="year in regYears">{{year}}</md-option>
+                            </md-select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="discount-info dob hr-none" data-ng-if="!isNew">
+                    <div class="inner-padd">
+                    <h3>Policy Expiry Date</h3>
+                    <div class="md-select-box first-dd">
+                        <md-select placeholder="DD" ng-model="manufacturingDate.date" name="manuDate">
+                            <md-option ng-repeat="date in manuDates">{{date}}</md-option>
+                        </md-select>
+
+                    </div>
+                    <div class="md-select-box first-month">
+                        <md-select placeholder="Month" ng-model="manufacturingDate.month" name="manuMonth">
+                            <md-option ng-repeat="month in manuMonths" ng-value="month.monthId">{{month.name}}</md-option>
+                        </md-select>
+
+                    </div>
+                    <div class="md-select-box first-year">
+                        <md-select placeholder="Year" ng-model="manufacturingDate.year" name="manuYear">
+                            <md-option ng-repeat="year in manuYears">{{year}}</md-option>
+                        </md-select>
+
+                    </div>
+
+                        </div>
+                </div>
+                <div data-ng-show="errorManuMessage" class="expiry-error">The diff between policy expiry date and registration date should be more than 180 days.</div>
+                <div class="discount-info dob pi-1" data-ng-if="!isNew">
+                    <div class="inner-padd">
+                        <h3>Previous Insurer</h3>
+                        <div class="md-select-box pinsurer">
+                            <md-select placeholder="Select Insurer" ng-model="ncbValues.PreviousInsurerId" data-ng-disabled="isRenewal">
+                                <md-option ng-repeat="insurer in previousInsurerList |orderBy:'SupplierName'" value="{{insurer.SupplierId}}">{{insurer.SupplierName}}</md-option>
+                            </md-select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="discount-info btn-continue continue-1">
+                <md-button ng-click="submitChangedNcbValues()" class="continue">Continue</md-button>
+            </div>
+    </md-dialog-content>
+
+</md-dialog>
+</div></div>

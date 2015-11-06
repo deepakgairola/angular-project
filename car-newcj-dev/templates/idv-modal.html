@@ -1,0 +1,83 @@
+<div class="modal-scroll">
+    <div class="get-discount-modal-box">
+<md-dialog data-ng-controller="idvController">
+    <md-dialog-content class="inner-modal">
+        <a class="idv-close ncb-close" ng-click="closeModal()"><span>Close</span></a>
+        <form ng-submit="submitChangedIdvValues(idvForm.$valid)" name="idvForm" novalidate>
+            <section class="discount-head lh-1">
+            <div class="idv-head">
+                <h2>Change your IDV <small>The coverage for your Vehicle would depend on the manufacturer’s listed selling price less depreciation for each year or the IDV (Insured’s declared Value). The IDV would be the maximum amount payable in the event of a claim for Total Loss / Theft.</small></h2>
+            </div>
+            </section>
+            <div class="idv-option ibv-1">
+                <md-radio-group ng-model="bestIdv.idvChoose">
+                    <md-radio-button ng-value=false> For Best Deal </md-radio-button>
+                    <md-radio-button ng-value=true>Your own IDV</md-radio-button>
+                </md-radio-group>
+            </div>
+            <div ng-if="starting">
+                <div class="slider" data-ng-if="bestIdv.idvChoose">
+                <md-slider flex min="{{bestIdv.MinIdv}}" max="{{bestIdv.MaxIdv}}" step="1" ng-model="bestIdv.IdvAmountOpted" aria-label="red" id="red-slider" data-ng-change="changeTempValue()" class >
+                </md-slider>
+                    <span class="left-value">{{bestIdv.MinIdv|amountConvertString}}</span><span class="right-value">{{bestIdv.MaxIdv|amountConvertString}}</span>
+                <div flex="20" layout layout-align="center center">
+                    <div class="input-value">
+                    <input type="number" only-num aria-label="{{bestIdv.IdvAmountOpted}}" name="idvAmount" ng-model="bestIdv.IdvAmountOpted" ng-blur="setDefaultValues()" data-ng-change="changeTempValue()" required/>
+                    <div class="error-messaqe" ng-messages="idvForm.idvAmount.$error"
+                         ng-if="idvForm.idvAmount.$dirty || submitted">
+                        <div ng-message="required">Enter Idv Amount</div>
+                        <div ng-message="number">Enter Only number</div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="idv-details">
+                <ul class="idv-details-1">
+                    <li><label>Car Accessories Coverage - Electrical <small>Electrical accessories which are fitted additionally e.g.music system, LCD mini TV, Fog lights etc.</small></label>
+                        <span>  <input type="number" only-num data-ng-model = "bestIdv.ElecAccessoriesAmount" name="elecAmount" min="0" max={{tempIdv-bestIdv.NonElecAccessoriesAmount-bestIdv.ExternalKitAmount}}>
+                                <div class="error-messaqe" ng-messages="idvForm.elecAmount.$error"
+                                     ng-if="idvForm.elecAmount.$dirty || submitted" >
+                                    <div ng-message="number">Enter Only  Numbers</div>
+                                    <div ng-message="max">Enter less than {{(tempIdv-bestIdv.NonElecAccessoriesAmount-bestIdv.ExternalKitAmount)|addCommas}}</div>
+                                </div>
+                        </span></li>
+                    <li><label>Car Accessories Coverage - Non Electrical <small>Non-electrical accessories which are fitted additionally e.g. seat cover, wheel cover etc.</small></label>
+                        <span>  <input type="number" only-num data-ng-model = "bestIdv.NonElecAccessoriesAmount" name="nonElecAmount" min="0" max={{tempIdv-bestIdv.ElecAccessoriesAmount-bestIdv.ExternalKitAmount}}>
+                                <div class="error-messaqe" ng-messages="idvForm.nonElecAmount.$error"
+                                     ng-if="idvForm.nonElecAmount.$dirty || submitted" >
+                                    <div ng-message="number">Enter Only  Numbers</div>
+                                    <div ng-message="max">Enter less than {{(tempIdv-bestIdv.ElecAccessoriesAmount-bestIdv.ExternalKitAmount)|addCommas}}</div>
+                                </div>
+                        </span></li>
+                </ul>
+                <ul class="idv-details-1 fuel-kit" data-ng-if="showCng">
+                    <li ><label>External Bi Fuel Kit<small>It covers the externally fitted CNG or LPG Kit.</small></label>
+                         <span>  <input type="number" only-num data-ng-model = "bestIdv.ExternalKitAmount" name="ExternalKitAmount" data-ng-disabled="!bestIdv.IsCNGKitFitted" min="{{MinAllowed}}" max=50000>
+                                <div class="error-messaqe" ng-messages="idvForm.ExternalKitAmount.$error"
+                                     ng-if="idvForm.ExternalKitAmount.$dirty || submitted" >
+                                    <div ng-message="number">Enter Only  Numbers</div>
+                                    <div ng-message="max">Enter less than 50000</div>
+                                    <div ng-message="min">Amount should be greater/equal to Rs. 10000</div>
+                                </div>
+                        </span></li>
+                    </li>
+                </ul>
+
+                <div class="idv-option fi-1" data-ng-if="showCng">
+                    <md-radio-group ng-model="bestIdv.IsCNGKitFitted" data-ng-change="changeFitted(bestIdv.IsCNGKitFitted)">
+                        <md-radio-button ng-value=true> Fitted </md-radio-button>
+                        <md-radio-button ng-value=false>Not Fitted</md-radio-button>
+                    </md-radio-group>
+                </div>
+            </div>
+
+        <div class="btn-continue">
+            <md-button class="md-raised continue-default" data-ng-click="submitted=true">Continue</md-button>
+        </div>
+    </form>
+    </md-dialog-content>
+
+</md-dialog>
+</div></div>

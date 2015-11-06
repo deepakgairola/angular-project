@@ -1,0 +1,134 @@
+<div class="purchase-modal-box" data-ng-controller="ViewPlanController">
+    <md-dialog >
+        <md-dialog-content class="inner-modal">
+            <div class="purchase-popup">
+                <div class="pricing-table pt">
+                    <div class="addon-tick"><span></span></div>
+                    <div class="plan-name">Awesome! You have selected</div>
+                    <div class="insurer-logo logo-s"><img ng-src='http://pbstatic.policybazaar.com/assets/Car/images/{{viewPlanQuote.SupplierId}}.png' /></div>
+                    <div class="assured-amount">
+                        <fieldset class="s1">
+                            <legend>
+                                <em>Base Premium</em>
+                            </legend>
+                        </fieldset>
+                        <span >Rs. {{(viewPlanQuote.Breakup.BasePremium+addOn)|addCommas}}</span>
+                    </div>
+                    <div class="premium-amount"><fieldset class="s1"><legend><em>Add On Premium</em></legend></fieldset><span>Rs. {{viewPlanQuote.Breakup.NetAddonPremium|addCommas}}</span></div>
+                    <div class="premium-amount discount"><fieldset class="s1"><legend><em>Discount</em></legend></fieldset><span>Rs. {{viewPlanQuote.Breakup.NetDiscount|addCommas}}</span></div>
+                    <div class="premium-amount total">
+                        <fieldset class="s1"><legend><em>Total</em></legend></fieldset>
+                        <span>Rs. {{(viewPlanQuote.Breakup.FinalPremium+addOn)|addCommas}}</span>
+                    </div>
+                </div>
+
+                <div class="add-ons">
+                    <a ng-click="closeModal($event)" class="addon-close"><span>Close</span></a>
+                    <form ng-submit="buyThisPlan(purchaseForm.$valid)" name="purchaseForm" >
+                        <div class="purchase-wrap">
+                        <div class="update-heading">
+                          <h2 ng-class="{'update-premium':showChangedMessage}" ng-show="showChangedMessage || (NCBChanged && !isNew)">{{message}}</h2>
+                        </div>
+                        <ul class="pdp" data-ng-if="NCBChanged && !isNew">
+                            <li>
+                                <span class="lbl">Claim in last year/ Vehicle transferred in last 12 months</span>
+
+                                <md-radio-group ng-model="thisNcbValues.IsClaimMade" data-ng-change="resetNCB(thisNcbValues.IsClaimMade)">
+                                    <md-radio-button ng-value=true ><span class="lbl">Yes</span></md-radio-button>
+                                    <md-radio-button ng-value=false ><span class="lbl">No</span></md-radio-button>
+                                </md-radio-group>
+
+                            </li>
+                            <li>
+                                <span class="lbl">What is the NCB Mentioned in your existing policy?</span>
+                                <div class="ncb">
+                                    <md-select name="ncb" required placeholder="NCB" ng-model="thisNcbValues.currentNcb"
+                                               data-ng-disabled="reHitRequired || localNCBChanged || thisNcbValues.IsClaimMade" ng-class="{'disabled':reHitRequired || localNCBChanged || thisNcbValues.IsClaimMade}">
+                                        <md-option ng-repeat="ncb in ncbPercentages">{{ncb}}</md-option>
+                                    </md-select>
+                                    <div class="error-messaqe" ng-messages="purchaseForm.ncb.$error"
+                                         ng-if="purchaseForm.ncb.$dirty || submitted">
+                                        <div ng-message="required">Select NCB</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="lbl">When was your car registered?</span>
+                                <div class="date">
+                                    <md-select placeholder="DD" ng-model="registrationDate.date" name="date"
+                                               data-ng-disabled="reHitRequired || localNCBChanged" ng-class="{'disabled':reHitRequired || localNCBChanged }" required>
+                                        <md-option ng-repeat="date in regDates">{{date}}</md-option>
+                                    </md-select>
+                                    <div class="error-messaqe" ng-messages="purchaseForm.date.$error"
+                                         ng-if="purchaseForm.date.$dirty || submitted">
+                                        <div ng-message="required">Select Date</div>
+                                    </div>
+                                </div>
+                                <div class="month">
+                                    <md-select placeholder="Month" ng-model="registrationDate.month" name="month"
+                                               data-ng-disabled="reHitRequired || localNCBChanged" ng-class="{'disabled':reHitRequired || localNCBChanged }" required >
+                                        <md-option ng-repeat="month in regMonths" ng-value="month.monthId">{{month.name}}</md-option>
+                                    </md-select>
+                                    <div class="error-messaqe" ng-messages="purchaseForm.month.$error"
+                                         ng-if="purchaseForm.month.$dirty || submitted">
+                                        <div ng-message="required">Select Month</div>
+                                    </div>
+
+                                </div>
+                                <div class="year">
+                                    <md-select placeholder="Year" ng-model="registrationDate.year" name="year"
+                                               data-ng-disabled="reHitRequired || localNCBChanged" ng-class="{'disabled':reHitRequired || localNCBChanged }" required>
+                                        <md-option ng-repeat="year in regYears">{{year}}</md-option>
+                                    </md-select>
+                                    <div class="error-messaqe" ng-messages="purchaseForm.year.$error"
+                                         ng-if="purchaseForm.year.$dirty || submitted">
+                                        <div ng-message="required">Select Year</div>
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li data-ng-if="viewPlanQuote.SupplierId==1 || viewPlanQuote.SupplierId==21">
+                                <span class="lbl">Manufacturing Date</span>
+                                <div class="month">
+                                    <md-select placeholder="Month" ng-model="manufacturingDate.month" name="manumonth"
+                                               data-ng-disabled="reHitRequired || localNCBChanged" ng-class="{'disabled':reHitRequired || localNCBChanged}" required >
+                                        <md-option ng-repeat="month in manuMonths" ng-value="month.monthId">{{month.name}}</md-option>
+                                    </md-select>
+                                    <div class="error-messaqe" ng-messages="purchaseForm.manumonth.$error"
+                                         ng-if="purchaseForm.manumonth.$dirty || submitted">
+                                        <div ng-message="required">Select Month</div>
+                                    </div>
+
+                                </div>
+                                <div class="year">
+                                    <md-select placeholder="Year" ng-model="manufacturingDate.year" name="manuyear"
+                                               data-ng-disabled="reHitRequired || localNCBChanged" ng-class="{'disabled':reHitRequired || localNCBChanged}" required>
+                                        <md-option ng-repeat="year in manuYears">{{year}}</md-option>
+                                    </md-select>
+                                    <div class="error-messaqe" ng-messages="purchaseForm.manuyear.$error"
+                                         ng-if="purchaseForm.manuyear.$dirty || submitted">
+                                        <div ng-message="required">Select Year</div>
+                                    </div>
+
+                                </div>
+                                <span ng-show = "errorManuMessage" class="rd-1 pdp-error" style="display:inline-block">Manufacturing date cannot be greater than registration date</span>
+                            </li>
+                        </ul>
+                        </div>
+                        <div class="discount-info prc-1">
+                           <md-button class="view-plan purchase-plan" ng-click="submitted=true" data-ng-class="{'btn-disable':loaderProceed}" ng-disabled="loaderProceed">{{proceedName}}</md-button>
+                        </div>
+                        <div class="message-overlay" data-ng-show="loaderProceed||insurerErroMessage">
+                            <a ng-click="closeModal($event)" class="addon-close" ng-hide="disableClose"><span>Close</span></a>
+                            <p>{{insurerErroMessage}}</p>
+                            <span class="glyphicon glyphicon-refresh" aria-hidden="true" data-ng-click="buyThisPlan(true)" data-ng-show="reHitRequired && reHitPossible"></span>
+                            <em class="plan-loader" data-ng-show="loaderProceed" ></em>
+                            <div class="msg-wait" ng-show="loaderProceed && disableClose">Please wait while we are fetching updated premium.</div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </md-dialog-content>
+    </md-dialog>
+</div>

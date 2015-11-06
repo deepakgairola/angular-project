@@ -1,0 +1,8 @@
+<div  class="carousel" ng-swipe-right="prev()" ng-swipe-left="next()">
+    <div class="carousel-indicators" >
+        <div ng-repeat="slide in slides | orderBy:'index' track by $index" id="{{'slideNow'+$index}}" ng-class="{active: isActive(slide)}" ng-click="select(slide)"></div>
+    </div>
+    <div class="carousel-inner" ng-transclude></div>
+    <a id="previousSlideLink" ng-click="prev()" ></a>
+    <a id="nextSlideLink" ng-click="next()" ></a>
+</div>

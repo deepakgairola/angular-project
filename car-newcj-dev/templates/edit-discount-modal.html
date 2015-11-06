@@ -1,0 +1,133 @@
+<div class="modal-scroll">
+<div class="get-discount-modal-box">
+    <md-dialog data-ng-controller="DiscountController">
+        <md-dialog-content class="inner-modal">
+            <a class="idv-close ncb-close" ng-click="closeModal($event)"><span>Close</span></a>
+            <section class="discount-head">
+                <h2>Fill the form below and get instant discounts.</h2>
+            </section>
+
+            <section class="discount-info">
+
+                <form ng-submit="updateDiscountModal(discountForm.$valid)" name="discountForm" novalidate>
+                    <div class="discount-info hr-none">
+                        <div class="inner-padd">
+                        <h3>Choose a voluntary deductible</h3>
+                        <p>Voluntary deductible is the amount you choose to pay from your own pocket at the time of claim settlement.</p>
+                        <md-radio-group ng-model="discount.VoluntaryDeductibleAmount">
+                            <md-radio-button value=0>No Deductible</md-radio-button>
+                            <md-radio-button value=2500> Rs. 2,500 </md-radio-button>
+                            <md-radio-button value=5000>Rs. 5,000</md-radio-button>
+                            <md-radio-button value=7500>Rs. 7,500</md-radio-button>
+                            <md-radio-button value=15000>Rs. 15,000</md-radio-button>
+                        </md-radio-group>
+                        </div>
+                    </div>
+
+                    <div class="discount-info occ">
+                        <div class="inner-padd">
+                            <h3>Vehicle Owned By</h3>
+                            <md-radio-group ng-model="discount.IsVehicleOwnedByIndividual" >
+                                <md-radio-button ng-value=true>Individual</md-radio-button>
+                                <md-radio-button ng-value=false> Organization </md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                    <div data-ng-if="discount.IsVehicleOwnedByIndividual">
+                        <div class="discount-info occ hr-none">
+                            <div class="inner-padd">
+                            <h3>Registered owner's occupation.</h3>
+                            <md-select placeholder="Occupation" ng-model="discount.ProfessionalDiscountId">
+                                <md-option ng-repeat="occupation in occupations track by occupation.Id" value="{{occupation.Id}}">{{occupation.Occupation}}</md-option>
+                            </md-select>
+                                </div>
+                        </div>
+
+                        <div class="discount-info dob hr-none">
+                            <div class="inner-padd">
+                                <h3>Registered owner's date of birth</h3>
+                                <div class="dob-dd">
+                                    <md-select placeholder="DD" ng-model="dateOfBirth.date" name="date" required>
+                                        <md-option ng-repeat="date in dates">{{date}}</md-option>
+                                    </md-select>
+                                    <div class="error-messaqe" ng-messages="discountForm.date.$error"
+                                         ng-if="discountForm.date.$dirty || submitted">
+                                        <div ng-message="required">Select Date</div>
+                                    </div>
+                                </div>
+                                <div class="dob-month">
+                                    <md-select placeholder="Month" ng-model="dateOfBirth.month" name="month" required>
+                                        <md-option ng-repeat="month in months" ng-value="month.monthId">{{month.name}}</md-option>
+                                    </md-select>
+                                    <div class="error-messaqe" ng-messages="discountForm.month.$error"
+                                         ng-if="discountForm.month.$dirty || submitted">
+                                        <div ng-message="required">Select Month</div>
+                                    </div>
+                                </div>
+                                <div class="dob-year">
+                                    <md-select placeholder="Year" ng-model="dateOfBirth.year" name="year" required>
+                                        <md-option ng-repeat="year in years">{{year}}</md-option>
+                                    </md-select>
+                                    <div class="error-messaqe" ng-messages="discountForm.year.$error"
+                                         ng-if="discountForm.year.$dirty || submitted">
+                                        <div ng-message="required">Select Year</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="discount-info occ hr-none">
+                            <div class="inner-padd">
+                                <h3>Driving Experience of the Registered Owner</h3>
+                                <md-select placeholder="Driving Experience" ng-model="discount.DrivingExperienceInYears">
+                                    <md-option ng-repeat="exp in experinceYears" ng-value="exp.experince">{{exp.text}}</md-option>
+                                </md-select>
+                            </div>
+                        </div>
+
+                        <div class="discount-info occ">
+                            <div class="inner-padd">
+                                <h3>Is the registered owner a member of Automobile Association of India?</h3>
+                                <md-radio-group ng-model="discount.AAMDiscountOpted">
+                                    <md-radio-button ng-value=true>Yes</md-radio-button>
+                                    <md-radio-button ng-value=false> No </md-radio-button>
+                                </md-radio-group>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="discount-info occ hr-none">
+                        <div class="inner-padd">
+                            <h3>Is the vehicle fitted with ARAI approved anti-theft device?</h3>
+                            <md-radio-group ng-model="discount.AntiTheftDiscountOpted">
+                                <md-radio-button ng-value=true>Yes</md-radio-button>
+                                <md-radio-button ng-value=false> No </md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+
+
+                    <div class="discount-info occ hr-none">
+                        <div class="inner-padd">
+                            <h3>Average Monthly Mileage</h3>
+                            <md-select placeholder="Monthly Mileage" ng-model="discount.AnnualKilometersRun">
+                                <md-option ng-repeat="kmrun in annualKmsRun" ng-value="kmrun.bound">{{kmrun.text}}</md-option>
+                            </md-select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="cancel-btn">
+                        <div class="discount-info occ d1">
+                            <md-button class="md-raised md-primary" ng-click="submitted=true">Apply Discount</md-button>
+                            <md-button class="md-raised cancel" ng-click="closeModal($event)">Cancel</md-button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </md-dialog-content>
+
+    </md-dialog>
+</div>
+</div>

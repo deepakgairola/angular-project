@@ -1,0 +1,131 @@
+<div class="modal-scroll">
+<div class="landing-modal landing-modal-1">
+    <md-dialog data-ng-controller="DialogController">
+        <md-dialog-content class="inner-modal">
+            <section class="discount-head lh-1">
+                <h2>Please give us a few more details about your
+                    car policy.</h2>
+            </section>
+            <form ng-submit="submitPreviousPolicyDetails(policyForm.$valid)" name="policyForm">
+                <section class="discount-info p1">
+
+                    <div class="discount-info idv-option idv-option2 hr-none">
+                        <div class="inner-padd">
+                            <h3>Have you made a claim in the last 12 months? (or has the vehicle ownership changed?)</h3>
+                            <md-radio-group ng-model="selectedExpiryDetails.IsClaimMade" data-ng-change="resetncb(selectedExpiryDetails.IsClaimMade)">
+                                <md-radio-button ng-value=true>Yes</md-radio-button>
+                                <md-radio-button ng-value=false> No </md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                    <div class="discount-info dob hr-none" data-ng-if=!selectedExpiryDetails.IsClaimMade>
+                        <div class="inner-padd">
+                            <h3>What is the NCB mentioned in your existing policy?</h3>
+                            <p>No claim bonus(NCB) is the discount you get for every claim free year. You can check this in under NCB section in your policy.</p>
+                            <div class="md-select-box first-dd">
+                                <md-select placeholder="DD" ng-model="selectedExpiryDetails.ncb" name="ncb.percent" data-ng-disabled="dontKnowClicked.IsClaimMade" ng-required="!dontKnowClicked.ncb && !selectedExpiryDetails.IsClaimMade">
+                                    <md-option ng-repeat="ncb in ncbPercentages">{{ncb.percent}}</md-option>
+                                </md-select>
+
+                              <span class="dont-btn">
+                                    <md-radio-group ng-model="dontKnowClicked.IsClaimMade" data-ng-change =  "NCBDontKnowClicked(dontKnowClicked.IsClaimMade)" >
+                                        <md-radio-button ng-value=true class="iknowclaim" data-ng-show="!dontKnowClicked.IsClaimMade">Dont Know</md-radio-button>
+                                        <md-radio-button ng-value=false class="dontkclaim" data-ng-show="dontKnowClicked.IsClaimMade">I Know</md-radio-button>
+                                    </md-radio-group>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="discount-info dob dob-1">
+                        <div class="inner-padd">
+                            <h3>Policy Expiry Date</h3>
+
+                            <div class="wrap-ped">
+                                <div class="expiryDate" data-ng-show="!dontKnowClicked.date">
+                                    <div class="md-select-box first-dd fd-1" >
+                                        <md-select placeholder="DD" ng-model="selectedExpiryDetails.date" name="date" ng-required="!dontKnowClicked.date">
+                                            <md-option ng-repeat="date in dates">{{date}}</md-option>
+                                        </md-select>
+                                        <div class="error-messaqe pr-1" ng-messages="policyForm.date.$error"
+                                             ng-if="policyForm.date.$dirty || submitted">
+                                            <div ng-message="required">Select Date</div>
+                                        </div>
+                                    </div>
+                                    <div class="md-select-box first-month fm-1">
+                                        <md-select placeholder="Month" ng-model="selectedExpiryDetails.month" name="month" ng-required="!dontKnowClicked.date">
+                                            <md-option ng-repeat="month in months" ng-value="month.monthId">{{month.name}}</md-option>
+                                        </md-select>
+                                        <div class="error-messaqe pr-1" ng-messages="policyForm.month.$error"
+                                             ng-if="policyForm.month.$dirty || submitted">
+                                            <div ng-message="required">Select Month</div>
+                                        </div>
+                                    </div>
+                                    <div class="md-select-box first-year fy-1">
+                                        <md-select placeholder="Year" ng-model="selectedExpiryDetails.year" name="year" ng-required="!dontKnowClicked.date">
+                                            <md-option ng-repeat="year in years">{{year}}</md-option>
+                                        </md-select>
+                                        <div class="error-messaqe pr-1" ng-messages="policyForm.year.$error"
+                                             ng-if="policyForm.year.$dirty || submitted">
+                                            <div ng-message="required">Select Year</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ped-1 expiry-date expiryradio" data-ng-show="dontKnowClicked.date">
+                                <span class="right-hr">
+                                    <md-radio-group name="expiryoption" ng-model="expiryDateOption" data-ng-change =  "expiryDateOptionChanged(expiryDateOption)" ng-required="dontKnowClicked.date">
+                                        <md-radio-button value=15>Next 15 days</md-radio-button>
+                                        <md-radio-button value=45>Next 45 days</md-radio-button>
+                                        <md-radio-button value=46>After 45 days</md-radio-button>
+                                    </md-radio-group>
+									<div class="error-messaqe pr-1" ng-messages="policyForm.expiryoption.$error"
+										 ng-if="policyForm.expiryoption.$dirty || submitted">
+										<div ng-message="required">Please select an expiry option</div>
+									</div>
+                                </span>
+                                </div>
+                            </div>
+                                <span class="dont-btn-2">
+                                    <md-radio-group ng-model="dontKnowClicked.date" data-ng-change =  "dateDontKnowClicked(dontKnowClicked.date)" >
+                                        <md-radio-button ng-value=false class="iknowdate" data-ng-show="dontKnowClicked.date">I Know</md-radio-button>
+                                        <md-radio-button ng-value=true class="dontkdate" data-ng-show="!dontKnowClicked.date">Dont Know</md-radio-button>
+                                    </md-radio-group>
+                                </span>
+                        </div>
+
+
+                    </div>
+
+                    <div class="discount-info dob sp-1">
+                        <div class="inner-padd">
+                            <h3>Previous Insurer</h3>
+                            <div class="md-select-box pinsurer">
+                                <md-select placeholder="Select Insurer" data-ng-disabled="dontKnowClicked.prevInsurer" ng-model="selectedExpiryDetails.previousInsurer" name="policyName" ng-required="!dontKnowClicked.prevInsurer">
+                                    <md-option ng-repeat="insurer in previousInsurerList |orderBy:'SupplierName'" value="{{insurer.SupplierId}}">{{insurer.SupplierName}}</md-option>
+                                </md-select>
+                                <div class="error-messaqe pr-1" ng-messages="policyForm.policyName.$error"
+                                     ng-if="policyForm.policyName.$dirty || submitted">
+                                    <div ng-message="required">Select previous policy provider</div>
+                                </div>
+                                  <!--<span class="dont-btn dont-btn-1">
+                                    <md-radio-group ng-model="dontKnowClicked.prevInsurer" data-ng-change =  "prevInsurerDontKnowClicked(dontKnowClicked.prevInsurer)" >
+                                        <md-radio-button ng-value=false data-ng-show="dontKnowClicked.prevInsurer">I Know</md-radio-button>
+                                        <md-radio-button ng-value=true data-ng-show="!dontKnowClicked.prevInsurer">Don't Know</md-radio-button>
+                                    </md-radio-group>
+                                </span>  -->
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="discount-info continue">
+                        <md-button ng-click="submitted=true" ng-class="{'continue-active':policyForm.$valid}">Continue</md-button>
+                    </div>
+                </section>
+            </form>
+        </md-dialog-content>
+
+    </md-dialog>
+</div>
+</div>

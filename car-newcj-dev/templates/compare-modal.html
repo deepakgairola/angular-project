@@ -1,0 +1,57 @@
+ <div class="modal-scroll">
+    <div class="compare-modal-box">
+        <md-dialog data-ng-controller="compareController">
+            <md-dialog-content class="inner-modal">
+                <a ng-click="closeModal($event)" class="addon-close"><span>Close</span></a>
+                <div class="compare-quote">
+                    <div class="fix-div">
+                        <a class="c-btn" ng-click="closeModal($event)">
+                            <span>Close</span>
+                        </a>
+                    </div>
+                    <ul class="compare-logo">
+                        <li>&nbsp;</li>
+                        <li ng-repeat = "planNames in comparePlan">
+                            <div class="fix-bl border-left">
+                                <div class="cm1">
+                                    <div class="compare-headefix">
+                                        <div class="insurer-logo"><img ng-src="{{planNames.ImagePath}}"> </div>
+                                        <div class="plan-name ng-binding">{{planNames.SupplierName}}</div>
+                                        <div class="plan-name ng-binding">{{planNames.PlanName}}</div>
+                                        <div class="premium-amount c-amount"><span class="ng-binding">Rs.{{planNames.FinalPremium|addCommas}}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="view-difference">
+                        <li class="cv1" data-ng-if=" isDifferent" data-ng-model="all" data-ng-click="toggleShowDifferences(false)"><a ><h3><span>View All</span></h3></a></li>
+                        <li class="cv1" data-ng-if=" !isDifferent" data-ng-model="difference" data-ng-click="toggleShowDifferences(true)"><a ><h3><span>View Differences</span></h3></a></li>
+                        <li ng-repeat = "planNames in comparePlan">  </li>
+                    </ul>
+
+                    <v-accordion class="vAccordion--default" multiple>
+                        <v-pane ng-repeat="plans in compareData | showDifferences:difference" expanded="$first">
+                            <v-pane-header click-only="true">
+                              <ul class="tp1">
+                                  <li><strong>{{ plans.Group}}</strong></li>
+                                  <li ng-repeat="planList in comparePlan">&nbsp;</li>
+                              </ul>
+                            </v-pane-header>
+
+                            <v-pane-content>
+                              <ul class="view-list" ng-repeat="details in plans.Features">
+                                  <li data-ng-if="details.isDisplay" >{{details.Name}}</li>
+                                  <li ng-repeat="det in details.Data" data-ng-if="details.isDisplay">
+                                      <span ng-show="showTicks(det)">{{ det.Text }}</span><span ng-class="{'cright-tick':rightTick,'ccross-tick':crossTick}"></span>
+                                  </li>
+                              </ul>
+                            </v-pane-content>
+                        </v-pane>
+                    </v-accordion>
+                </div>
+            </md-dialog-content>
+
+        </md-dialog>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="step-1">
+    <div class="sub-head">
+        <h1>Previous Search History <small><a class="back-arrow"><span tabindex="0" role="button" data-ng-click="getToIndexPage()" target="#first">Go Back to the Previous Screen</span></a></small></h1>
+    </div>
+
+    <div class="start-comparing">
+        <div class="row-1 yrs-row">
+            <ul class="start-wrap yrs" >
+                <li ng-repeat="model in previousModels">
+                    <div class="sc-new"><h3 class="car-name">{{model.MakeName }}</h3></div>
+                    <fieldset class="car-icon">
+                        <legend><span><em>Car</em></span></legend>
+                    </fieldset>
+                    <div class="compare-content yrs-content">
+                        <p><span>{{model.MakeName }}&nbsp;{{model.ModelName }}</span>
+                        <span>{{model.VariantName|truncated }}</span>
+                        <!--<span>2014 Registered</span>
+                        <span>Petrol Variant</span>
+                        <span>UP-16  <ul class="bullet-o"><li>Noida Registered</li></ul></span></p></div>-->
+                    <div class="compare-btn">
+                        <ul class="byc yrs-select">
+                            <li><a data-ng-click="yrsUrlRedirect(model.URL,model.EnquiryId)">Select This Quote</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

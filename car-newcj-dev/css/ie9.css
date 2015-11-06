@@ -1,0 +1,28 @@
+
+.md-select-label{ float: left;}
+.md-select-label .md-select-icon{ margin: 5px 0 0 32px}
+md-autocomplete button{ display: none;}
+.landing-modal{ width: 50%;margin: 20px auto}
+.landing-modal md-dialog.transition-in{ width: inherit;left: 15%;margin-top: 30px;width:100%;min-width:100%;}
+.lh-1.discount-head{ margin-bottom: 0;}
+.dob .pinsurer{ width: 57%;}
+div[ng-messages]{ margin-top: 41px;}
+.e1{ margin-top: 0 !important;}
+.landing-modal{ width: 70%;}
+.input-value{ margin: 0 auto;}
+fieldset.s1 legend{ text-align: center;}
+fieldset.s1 legend em{ position: relative;top: 4px;}
+.purchase-modal-box md-dialog.transition-in{ width: 55%;top: 20px;}
+.view-plan-modal-box md-dialog{ display: inline-block;}
+.md-select-label .md-select-icon{ float: right;}
+.hover-info{ height: 300px;}
+.p-info md-input-container:not(.md-input-has-value) input:not(:focus){ width: 100%;}
+.p-info .mob-num{ width: 85%;}
+.mob-1 md-select{ margin-top: 10px;}
+.p-info md-input-container .md-input:focus{ width: 100%;}
+.md-select-label .md-select-icon{ position:absolute;right: 11px;top: 13px;}
+.md-select-label .md-select-icon{top: 9px;}
+.car-details md-select{ float: left;}
+.ibv-1{ padding-top: 20px;}
+.compare-quote,.compare-modal-box .inner-modal{ background: #fff;}
+

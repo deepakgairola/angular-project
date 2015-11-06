@@ -1,0 +1,27 @@
+<div class="landing-modal email-modal">
+    <md-dialog data-ng-controller="EmailPlanController">
+        <md-dialog-content class="inner-modal">
+            <section class="discount-head lh-1">
+                <a ng-click="closeModal($event)" class="addon-close"><span>Close</span></a>
+                <h2>Email Top Quotes</h2>
+            </section>
+            <div class="email-content">
+                <p>
+                    Hi, Based on your profile, we are sending the top quotes that are available for you. You can continue your journey from the links provided in the email. The mail will be sent to the following email address;
+                </p>
+                <form novalidate ng-submit="emailPlan(emailForm.$valid)" name="emailForm">
+                    <input type="email" data-ng-model="emailObj.to" name="email" required ng-pattern="/[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?/">
+                    <div class="error-messaqe" ng-messages="emailForm.email.$error"
+                         ng-if="emailForm.email.$dirty || submitted">
+                        <div class="email-1" ng-message="required">Enter Email Address</div>
+                        <div ng-message="pattern">Enter Proper Email Address</div>
+                    </div>
+                    <md-button class="md-raised md-primary" data-ng-click="submitted = true" data-ng-disabled="emailSent">Submit</md-button>
+                    <span class="succes-email" data-ng-show="emailSent">Email Sent Successfully.</span>
+                </form>
+            </div>
+
+        </md-dialog-content>
+
+    </md-dialog>
+</div>

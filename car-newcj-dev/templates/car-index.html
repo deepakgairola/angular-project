@@ -1,0 +1,85 @@
+
+<div data-ng-controller="IndexController">
+        <carousel >
+            <slide active="active0" data-ng-show="showIt" class="firstView">
+                <div class="step-1">
+                    <div class="sub-head">
+                        <h1>Looking for Car Insurance? <small>Great! Select how you want to start finding the best plan for you & your car</small></h1>
+                    </div>
+
+                <div class="start-comparing in-rush">
+                    <div class="row-1">
+                        <ul class="start-wrap">
+                            <li class="md-whiteframe-z2">
+                                <div class="sc-new"><h3>Start <span>Comparing</span></h3></div>
+                                <fieldset class="car-icon">
+                                    <legend><span><em>Car</em></span></legend>
+                                </fieldset>
+                                <div class="compare-content"><p>You can begin a fresh comparison by entering few details about your car & your previous insurance policy. In case you have been here before, you can also retrieve your previous searches & continue from where you left off.</p></div>
+                                <div class="compare-btn">
+                                    <ul class="byc">
+                                        <li><a data-ng-click="beginComaparison()">Begin Your Comparison</a></li>
+                                        <li><a class="btn-grey" data-ng-click="openRecentSearches()" data-ng-class="{'btn-disable':!isYrsEnabled}">Get Previous Searches</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="pb-customer md-whiteframe-z2 upload-box">
+                                <div class="sc-new pc-1"><h3>In a <span>Rush?</span></h3></div>
+                                <fieldset class="car-icon h-icon">
+                                    <legend><span><em>Car</em></span></legend>
+                                </fieldset>
+                                <div class="compare-content pc-content"><p>Take a photo of your previous policy, upload using the button below, and get a link via email to directly purchase a new policy.</p></div>
+                                <div class="compare-btn">
+                                    <ul class="byc pc-search">
+
+                                        <li>
+                                          <a  ng-click="showUploadDocumentModal($event,quote)"  class="premium_break">Upload Policy</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <md-whiteframe class="md-whiteframe-z2" layout layout-align="center center" data-ng-if="noRecords">
+                                    <span>We dont have your record.<br /> We will redirect you now</span>
+                                </md-whiteframe>
+                            </li>
+                            <li class="pb-customer md-whiteframe-z2">
+                                <div class="sc-new pc-1"><h3>Policybazaar <span>Customers</span></h3></div>
+                                <fieldset class="car-icon h-icon">
+                                    <legend><span><em>Car</em></span></legend>
+                                </fieldset>
+                                <div class="compare-content pc-content"><p>Bought a car insurance plan last year from Policybazaar? Just enter your car registration number & get an instant quote.</p></div>
+                                <div class="compare-btn">
+                                    <ul class="byc pc-search">
+                                        <li><a>&nbsp;</a></li>
+                                        <li>
+                                            <form>
+                                                <a class="btn-white" ng-class="{'regError':isError}">
+                                                    <input type="text" placeholder="Eg: DL1CA1234" ng-model="carNo.carRegNo" ng-change="changeRenewalRegNo(carNo.carRegNo)" maxlength="11"/>
+                                                    <button class="go-arrow" data-ng-click="createRenewal($event)" ng-class="{'sd-1':startLoader}">
+                                                        <em class="loader-search" data-ng-show="startLoader"></em>
+                                                    </button>
+                                                </a>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <md-whiteframe class="md-whiteframe-z2" layout layout-align="center center" data-ng-if="noRecords">
+                                    <span>We dont have your record.<br /> We will redirect you now</span>
+                                </md-whiteframe>
+                            </li>
+
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+            </slide>
+            <slide active="active1">
+                <ng-include  src="'templates/QuestionPage.html'"></ng-include>
+            </slide>
+            <slide active="active2" >
+                <ng-include  src="'templates/RecentSearches.html'"></ng-include>
+            </slide>
+            <slide active="active3" >
+                <ng-include  src="'templates/enter-contact.html'"></ng-include>
+            </slide>
+        </carousel>
+    </div>

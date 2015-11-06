@@ -1,0 +1,164 @@
+<div data-ng-controller="QuotesMainController" >
+
+    <div class="quote-main-wrap">
+
+        <div class="left-info">
+            <!--<div class="ac-logo"><a><img src="http://cdn.policybazaar.com/assets/Car/images/pblogo.png" width="194" height="32" alt="Accurate Quotes" /></a></div>-->
+            <div class="ac-logo"><a><img src="http://cdn.policybazaar.com/assets/Car/images/pblogo.png" width="194" height="32" alt="Policy Bazaar" /></a></div>
+            <div class="varient">
+                <ul class="varient-info">
+                    <li class="first-word">{{carDetails.MakeModelVariant|truncated}}</li>
+                    <li><span>{{carDetails.RegistrationYear}} Registered</span> <ul><li>{{carDetails.FuelType}} Variant</li></ul></li>
+                    <li><span data-ng-hide="isNew">{{carDetails.RtoCode}}</span> <ul><li>{{carDetails.RtoCity|titleCase}} Registration</li></ul></li>
+                    <!--<li> <span class="car-details-btn" ng-click="EditCarDetails($event)" data-ng-disabled="AllDisabled">Edit</span></li>-->
+                </ul>
+               <!-- <span class="clear-btn discount-btn" ng-click="EditCarDetails($event)" data-ng-disabled="AllDisabled">Add</span>-->
+
+                    <ul class="idv-info idv-info-1">
+                    <li ng-click="showAdvanced($event)" data-ng-disabled="AllDisabled"><label>IDV</label> <span ng-if=!Idv.idvChoose>Your Best Deal</span><span ng-if=Idv.idvChoose>Rs. {{Idv.IdvAmountOpted}}</span></li>
+                    <li ng-click="showAdvanced($event)" data-ng-disabled="AllDisabled"><label>CNG Kit & Accessories</label><span ng-if="allPremiumFactors.ExternalKitAmount!=0||allPremiumFactors.NonElecAccessoriesAmount!=0||allPremiumFactors.ElecAccessoriesAmount!=0">Rs. {{allPremiumFactors.ElecAccessoriesAmount + allPremiumFactors.NonElecAccessoriesAmount + allPremiumFactors.ExternalKitAmount}}</span><span ng-if="allPremiumFactors.ExternalKitAmount==0&&allPremiumFactors.NonElecAccessoriesAmount==0&&allPremiumFactors.ElecAccessoriesAmount==0">Nil</span></li>
+                    <li ng-click="showNCB($event)" data-ng-disabled="AllDisabled" data-ng-if="!isNew"><label>Claims in last year</label> <span>{{allPremiumFactors.IsClaimMade|yesNo}}</span></li>
+                    <li ng-click="showNCB($event)" data-ng-disabled="AllDisabled" data-ng-if="!isNew"><label>Previous NCB</label> <span>{{allPremiumFactors.CurrentNCBPercent}}%</span></li>
+                    <li ng-click="showNCB($event)" data-ng-disabled="AllDisabled" data-ng-if="!isNew"><label >Car Registration Date</label> <span>{{allPremiumFactors.VehicleRegistationDate|customDateFormat}}</span></li>
+                    <li ng-click="showNCB($event)" data-ng-disabled="AllDisabled" data-ng-if="!isNew"><label>Expiry Policy Date</label> <span>{{allPremiumFactors.ExistingPolicyExpiryDate|customDateFormat}}</span></li>
+                    <li data-ng-disabled="AllDisabled" data-ng-if="isNew"><label>Policy Start Date</label> <span>{{policyStartDate}}</span></li>
+                </ul>
+            </div>
+
+			 <div class="select-addons zero-dep add-edit md-whiteframe-z1">
+                <h3 class="sad-1">
+                    <em class="lb-1"></em>
+                    <span >Get Discount</span>
+                    <span class="clear-btn discount-btn" ng-click="showEditDiscountModal($event)" data-ng-disabled="AllDisabled">Apply</span>
+
+                </h3>
+                <p class="orange">Get instant discounts.</p>
+            </div>
+
+            <div class="select-addons zero-dep" data-ng-show="isZDAllowed">
+                <h3 class="sad-1">
+                    <em class="lb-1"></em>
+                    <span>Zero Depreciation</span>
+                    <span class="clear-btn" ng-class="{'remove-btn':zdText!='Add'}">{{zdText}}
+                        <md-checkbox ng-model="planFilters.IsZD.checked" data-ng-change="changeZeroDepFilter(planFilters)" aria-label="Zero Depreciation" data-ng-disabled="AllDisabled" ></md-checkbox></span>
+                    <em class="rb-1"></em>
+                </h3>
+                <p>This offers full claim without any depreciation on the value of replaced parts.</p>
+            </div>
+
+<v-accordion class="vAccordion--default" multiple>
+
+  <!-- add expanded attribute to open the section -->
+  <v-pane>
+    <v-pane-header>
+      <h3 class="sad-3 addon-white"><span>Select Addons</span></h3>
+    </v-pane-header>
+
+    <v-pane-content>
+      <ul class="addon-info">
+                    <li><label><md-checkbox ng-model="planFilters.IsRSA.checked" data-ng-change="changeRsaFilter(planFilters)" aria-label="24 x 7 Roadside Assistance" data-ng-disabled="AllDisabled">24 x 7 Roadside Assistance</md-checkbox></label>
+                        <!--<md-tooltip md-direction="right">
+                        This is a service which you can use in case of a car breakdown.
+                    </md-tooltip>-->
+                    </li>
+                    <!--<li><label><md-checkbox ng-model="planFilters.IsZD" data-ng-change="changeZeroDepFilter(planFilters)" aria-label="Zero Depreciation" data-ng-disabled="AllDisabled">Zero Depreciation</md-checkbox></label>-->
+                    <li><label><md-checkbox ng-model="planFilters.IsNCB.checked" data-ng-change="changeNcbFilter(planFilters)" aria-label="NCB Protector" data-ng-disabled="AllDisabled">NCB Protector</md-checkbox></label>
+                        <!--<md-tooltip md-direction="right">
+                        This ensures No Claim Bonus remains intact at time of renewal (same insurer) even in case of a claim.
+                    </md-tooltip>-->
+                    </li>
+                    <li><label><md-checkbox ng-model="planFilters.IsEP.checked" data-ng-change="changeEngineProtectFilter(planFilters)" aria-label="Engine Protector" data-ng-disabled="AllDisabled">Engine Protector</md-checkbox></label>
+                        <!--<md-tooltip md-direction="right">
+                        This covers consequential damage to the internal child parts of the engine and/or gear box ,arising out of -water ingression, leakage of lubricating oil.
+                    </md-tooltip>-->
+                    </li>
+                    <li><label><md-checkbox ng-model="planFilters.IsKLR.checked" data-ng-change="changekeyLockFilter(planFilters)" aria-label="Key & Lock Replacement" data-ng-disabled="AllDisabled">Key & Lock Replacement</md-checkbox></label>
+                        <!--<md-tooltip md-direction="right">
+                        In the event of irrecoverable loss of car keys, the cost of replacement of keys and installation of new locks is covered (upto a specified sum insured).
+                    </md-tooltip>-->
+                    </li>
+                    <li>
+                      <label>
+                        <md-checkbox ng-model="planFilters.IsCOC.checked" data-ng-change="changekeyLockFilter(planFilters)" aria-label="Consumables" data-ng-disabled="AllDisabled">Consumables</md-checkbox>
+                      </label>
+                    </li>
+                </ul>
+    </v-pane-content>
+  </v-pane>
+
+  <v-pane>
+    <v-pane-header class="addon-blue">
+      <h3 class="sad-3 sad-4 md-whiteframe-z1"><span>Passenger/Driver Cover</span></h3>
+    </v-pane-header>
+
+    <v-pane-content>
+      <div class="varient v1">
+                <ul class="idv-info select-1">
+                    <li><label>Passenger(s)</label>
+                        <span class="bg-none"><md-select placeholder="Passenger" ng-model="extra.passenger" data-ng-change = "changePassengerValue(extra.passenger)" data-ng-disabled="AllDisabled">
+                            <md-option value=0>Select</md-option>
+                            <md-option value=-50>Rs. 1,00,000/-</md-option>
+                            <md-option value=-100>Rs. 2,00,000/-</md-option>
+                        </md-select>
+                            </span></li>
+                    <li><label>Driver</label>
+                        <span class="bg-none"><md-select placeholder="Driver" ng-model="extra.driver" data-ng-change = "changeDriverValue(extra.driver)" data-ng-disabled="AllDisabled">
+                            <md-option value=-50>Yes</md-option>
+                            <md-option value=0>No</md-option>
+                        </md-select></span></li>
+                </ul>
+                    </div>
+    </v-pane-content>
+  </v-pane>
+
+</v-accordion>
+
+            <div class="byp">
+                <a data-ng-click="netWorkHospital()" target="_blank" class="byop1" data-ng-disabled="AllDisabled"><em></em>Garage Locator</a>
+            </div>
+        </div>
+
+        <div class="right-info" >
+            <div class="nav-bar">
+            <div class="head-callnum" >
+                <div class="back-btn"><a data-ng-click="goToPreQuotes()"><span>Back</span></a></div>
+                <div class="top-btn">
+                <div class="get-help email-btn" data-ng-click="showEmailPlanModal()">
+                    <em class="glyphicon glyphicon-envelope" aria-hidden="true"></em>
+                    <span class="gh1">Email Plans</span>
+                </div>
+                <div class="get-help" ng-click="yescallCTCMe()" data-ng-disabled="AllDisabled" data-ng-hide="disableAfterCall||!workingHrs"><span class="gh1" ><em aria-hidden="true" class="glyphicon glyphicon-earphone"></em>Call Back</span></div>
+                <h5>1800-102-7716 <small>[24 x 7 Toll Free]</small></h5>
+                </div>
+            </div>
+            <section class="top-list some-nav-bar-show" >
+                <div class="fc-1">&nbsp;</div>
+                <div class="sc-1" >
+                    <div class="top-box">&nbsp;</div>
+                    <div class="top-list">Insurer</div>
+                    <div class="top-list pc-1">{{PriceName}}</div>
+                    <div class="top-list add-2">Addons</div>
+                    <div class="top-list fp-1">Final Price</div>
+                </div>
+                <md-progress-linear class="md-warn" md-mode="determinate" value="{{determinateValue}}" md-buffer-value="{{determinateValue2}}" data-ng-show="showProgressbar">
+                </md-progress-linear>
+                <md-progress-linear md-mode="indeterminate" ng-show="showIndeterminateProgressBar"></md-progress-linear>
+            </section>
+            </div>
+            <ng-include  src="'templates/quote-section.html'" class="grid-space"></ng-include>
+        </div>
+    </div>
+    <!--Get Help-->
+    <div class="bottom-btn">
+
+       <!-- <div class="profile-drop-down get-1 callMeShow" data-ng-show="showCallMe">
+            <span class="get-arrow g-arrow"></span>
+            <ul class="inner-profile">
+                <li class="rcb b1"><a data-ng-click="yescallCTCMe()" class="byop">hover-info<br> for Assistance</a></li>
+            </ul>
+        </div>-->
+
+        <div class="compare-clear compare-clear1" data-ng-click="clearSelection()" data-ng-show="showClearSelection"><span class="gh1">Clear Selection</span></div>
+        <div class="compare-clear compare-quote1" ng-click="updateCompareData($event)" flex="" flex-md="100" data-ng-show="comparePlanButton">Compare</div>
+    </div>
+</div>

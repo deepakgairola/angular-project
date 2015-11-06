@@ -1,0 +1,108 @@
+<section class="quote-show" ng-repeat="quote in plans track by quote.PlanId" data-ng-show = "quote.display && quote.available && !hideQuotes" >
+        <div class="fc-1">&nbsp;</div><span data-ng-show="false"></span>
+        <div class="sc-1 q1 md-whiteframe-z1" ng-class="{'quote-select':quote.isSelectedForCompare,'q2':quote.Breakup.BasePremium==0,'abcd':quote.weightage>0}" >
+            <div class="check-box">
+              <md-checkbox ng-model="quote.isSelectedForCompareCheckbox" ng-click="selectCompare($event,quote, false)" aria-label="Check for Compare" ng-disabled="(AllDisabled || (planCompare.length == 4 && !quote.isSelectedForCompareCheckbox))"></md-checkbox>
+            </div>
+            <div class="quote-list q-logo">
+            <img ng-src='http://cdn.policybazaar.com/assets/Car/images/{{quote.SupplierId}}.png'>
+
+            </div>
+
+                <div class="quote-list price-1">
+                  <!-- <div class="referesh-message">
+                        <p><span><a class="glyphicon glyphicon-refresh"></a> Lorem Ipsum is simply dummy text of the printing and</span></p>
+                    </div>-->
+               <div class="hover-info">
+                        <label ng-if='quote.Breakup.BasePremium>0'><em>Rs. {{(quote.Breakup.BasePremium-quote.Breakup.NetDiscount)|addCommas}}</em>
+                        </label>
+                        <img ng-src="http://cdn.policybazaar.com/assets/Car/images/loader.GIF" ng-if='quote.Breakup.BasePremium==0'>
+                   <a ng-click="selectCompare($event,quote, true)" data-ng-disabled="AllDisabled">{{quote.compareText}}</a>
+                    </div>
+                   <div class="b-price">
+                        <label ng-if='quote.Breakup.BasePremium>0'><em >Rs. {{(quote.Breakup.BasePremium-quote.Breakup.NetDiscount)|addCommas}}</em>
+                        </label>
+
+                        <!--
+						<small class="idv-insurer" ng-if='quote.Breakup.BasePremium>0'>IDV:
+                            <em>Rs.{{quote.Idv|addCommas}}</em>
+                        </small>
+						<small class="idv-insurer" ng-if='quote.Breakup.BasePremium>0'>Eligible NCB: <em>{{Idv.EligibleNCBPercent}}% </em></small>
+						-->
+                        <div class="img-center"><img ng-src="http://cdn.policybazaar.com/assets/Car/images/loader.GIF" ng-if='quote.Breakup.BasePremium==0'></div>
+
+                        <small ng-if='quote.Breakup.BasePremium>0'>IDV:
+                            <em>Rs.{{quote.Idv|addCommas}}</em>
+                            <span>Eligible NCB: <em>{{Idv.EligibleNCBPercent}}% </em></span>
+                            <span data-ng-show="Idv.IsElecAccessoryIncluded">Electrical:
+                                <em data-ng-show="quote.Breakup.ElecAccessoriesPremium>0">Rs. {{quote.Breakup.ElecAccessoriesPremium|addCommas}}
+                                </em>
+                                <em data-ng-show="quote.Breakup.ElecAccessoriesPremium<=0 && quote.SupplierId!=16">Not Covered
+                                </em>
+                            </span>
+                            <span data-ng-show="Idv.IsNonElecAccessoryIncluded">Non Electrical:
+                                <em data-ng-show="quote.Breakup.NonElecAccessoriesPremium>0">Rs. {{quote.Breakup.NonElecAccessoriesPremium|addCommas}}
+                                </em>
+                                <em data-ng-show="quote.Breakup.NonElecAccessoriesPremium<=0 && quote.SupplierId!=16">Not Covered
+                                </em>
+                                <em data-ng-show="quote.SupplierId==16">Included In IDV
+                                </em>
+                            </span>
+                            <span data-ng-show="Idv.IsCNGKitFitted">CNG:
+                                <em data-ng-show="quote.Breakup.BiFuelKitPremium>0">Rs. {{quote.Breakup.BiFuelKitPremium|addCommas}}
+                                </em>
+                                <em data-ng-show="quote.Breakup.BiFuelKitPremium<=0">Not Covered
+                                </em>
+                            </span>
+                        </small>
+
+                    </div>
+                </div>
+                <div class="quote-list bg-grey q4" >
+
+                <div class="shape-1">
+                <div class="shape " data-ng-show="quote.weightage>0" ng-class="{'perc-0':quote.percentageWeightage<20,'perc-20':(quote.percentageWeightage>=20 && quote.percentageWeightage<40),'perc-40':(quote.percentageWeightage>=40 && quote.percentageWeightage<60),'perc-60':(quote.percentageWeightage>=60 && quote.percentageWeightage<80),'perc-80':(quote.percentageWeightage>=80 && quote.percentageWeightage<100),'perc-100':quote.percentageWeightage==100}">
+                    <span data-ng-show="quote.weightage>0"   >{{quote.percentageWeightage}}%
+                        <md-tooltip md-direction="top">
+                            This plan matches {{quote.percentageWeightage}}% of your add on needs.
+                        </md-tooltip>
+                    </span>
+                    </div>
+                    </div>
+                    <div class="hover-info">
+                        <label >Rs. {{quote.Breakup.NetAddonPremium|addCommas}}</label>
+                        <a ng-click="showViewPlanModal($event,quote)" flex="" flex-md="100" data-ng-disabled="AllDisabled">View Plan Details</a>
+                    </div>
+                   <div class="img-center">
+                    <img ng-src="http://cdn.policybazaar.com/assets/Car/images/loader.GIF" ng-if='quote.Breakup.BasePremium==0'>
+                    </div>
+                    <div  class="b-price adon" ng-if='quote.Breakup.BasePremium>0'>
+                        <label >Rs. {{quote.Breakup.NetAddonPremium|addCommas}}</label>
+
+
+                        <img ng-src="http://cdn.policybazaar.com/assets/Car/images/loader.GIF" ng-if='quote.Breakup.BasePremium==0'>
+                        <small data-ng-if="quote.Breakup.ZeroDepPremium>0 || quote.AddOnFilters.IsZD">Zero Dep </small>
+                        <small data-ng-if="quote.Breakup.RsaPremium>0  || quote.AddOnFilters.IsRSA">Roadside Assistance </small>
+                        <small data-ng-if="quote.Breakup.NcbProtectorPremium>0 || quote.AddOnFilters.IsNCB">NCB Protector </small>
+                        <small data-ng-if="quote.Breakup.EngineProtectorPremium>0 || quote.AddOnFilters.IsEP">Engine Protector </small>
+                        <small data-ng-if="quote.Breakup.InvoicePriceCoverPremium>0">Engine Protector </small>
+                        <small data-ng-if="quote.Breakup.KeyReplacementPremium>0 || quote.AddOnFilters.IsKLR">Key & Lock Replacement </small>
+                        <small data-ng-if="quote.Breakup.LossOfPersonalBelongingPremium>0 || quote.AddOnFilters.IsLPB">Personal Belonging loss </small>
+                        <small data-ng-if="quote.Breakup.EmergencyTransportandHotelPremium>0 || quote.AddOnFilters.IsETHE">Emer. Transport and Hotel </small>
+                        <small data-ng-if="quote.Breakup.CostOfConsumablesPremium>0 || quote.AddOnFilters.IsCOC">Consumables </small>
+                    </div>
+                </div>
+
+            <div class="quote-list fp-1">
+                <div class="img-center ic-1">
+                    <img ng-src="http://cdn.policybazaar.com/assets/Car/images/loader.GIF" ng-if='quote.Breakup.BasePremium==0'>
+                </div>
+                <div class="b-price f-price" ng-if='quote.Breakup.BasePremium>0'>
+                    <!--<label><em >Rs. {{(quote.Breakup.FinalPremium)|addCommas}}</em></label>-->
+                    <small class="s-plan"><a ng-click="showPurchaseModal($event,quote)" flex flex-md="100"><em >Rs. {{(quote.Breakup.FinalPremium)|addCommas}}</em></a> </small>
+                     <a  ng-click="showPremiumBreakupModal($event,quote)"  class="premium_break">Premium Breakup </a>
+                </div>
+            </div>
+        </div>
+
+</section>
